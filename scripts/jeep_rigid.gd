@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 @export_group("Movement Settings")
-@export var speed: float = 18.0             
+@export var speed: float = 20.0             
 @export var acceleration: float = 0.1
 @export var turnSpeed: float = 3.0
 @export var turnAcceleration: float = 0.25
@@ -12,11 +12,10 @@ extends RigidBody3D
 @export var brake_strength: float = 0.3     
 
 @export_group("Raycast Suspension Physics")
-@export var suspension_rest_distance: float = 0.25  # INCREASED: Gives the wheel more room to travel down
-@export var spring_stiffness: float = 80.0        # INCREASED SIGNIFCANTLY: Holds up a heavy chassis on slopes
+@export var suspension_rest_distance: float = 0.50  # INCREASED: Gives the wheel more room to travel down
+@export var spring_stiffness: float = 120.0        # INCREASED SIGNIFCANTLY: Holds up a heavy chassis on slopes
 @export var spring_damping: float = 8.0           # INCREASED: Rule of thumb is (Stiffness / 10) to stop bouncing
 @export var wheel_radius: float = 0.35             # Kept matching your tire profile mesh
-
 
 @export_group("Suspension RayCast Nodes")
 @export var raycast_fl: RayCast3D        
