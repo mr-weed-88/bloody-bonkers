@@ -12,14 +12,14 @@ extends RigidBody3D
 @export var brake_strength: float = 0.3     
 
 @export_group("Raycast Suspension Physics")
-@export var suspension_rest_distance: float = 0.35  # INCREASED: Gives the wheel more room to travel down
+@export var suspension_rest_distance: float = 0.25  # INCREASED: Gives the wheel more room to travel down
 @export var spring_stiffness: float = 80.0        # INCREASED SIGNIFCANTLY: Holds up a heavy chassis on slopes
 @export var spring_damping: float = 8.0           # INCREASED: Rule of thumb is (Stiffness / 10) to stop bouncing
-@export var wheel_radius: float = 0.40             # Kept matching your tire profile mesh
+@export var wheel_radius: float = 0.35             # Kept matching your tire profile mesh
 
 
 @export_group("Suspension RayCast Nodes")
-@export var raycast_fl: RayCast3D		
+@export var raycast_fl: RayCast3D        
 @export var raycast_fr: RayCast3D
 @export var raycast_rl: RayCast3D
 @export var raycast_rr: RayCast3D
@@ -37,6 +37,10 @@ extends RigidBody3D
 @export var suspension_dive_pitch: float = 0.05   # Nose goes UP on gas, DOWN on reverse/brakes
 @export var lean_return_speed: float = 10.0
 
+@export_group("Engine Idle Shake")
+@export var engine_shake_amount: float = 0.015     # Intensity of the body vibration/rattle
+@export var engine_shake_speed: float = 45.0      # Frequency of the engine vibration cycles
+
 var current_wheel_roll: float = 0.0
 var current_steer_angle: float = 0.0
 
@@ -50,6 +54,7 @@ var scale_rr: Vector3 = Vector3.ONE
 var original_body_pos: Vector3 = Vector3.ZERO
 var current_pitch: float = 0.0
 var current_roll: float = 0.0
+var shake_time: float = 0.0
 
 func _ready() -> void:
 	contact_monitor = false
@@ -171,6 +176,24 @@ func _physics_process(delta: float) -> void:
 		current_roll = lerp(current_roll, target_roll, lean_return_speed * delta)
 		
 		car_body.transform.basis = Basis.from_euler(Vector3(current_pitch, 0.0, current_roll))
+
+		# --- ENGINE SHAKE MODIFICATION ---
+		# Multipliers handle shake speeds independently
+		var dynamic_speed_mod = 1.5 if boost else (1.2 if (forward or backward) else 1.0)
+		
+		# UPDATED: Reduces shaking intensity cleanly by 1/3 (to 0.333) when moving forward or backward
+		var dynamic_shake_mod = 1.0
+		if forward or backward:
+			dynamic_shake_mod = 0.333
+			if boost:
+				dynamic_shake_mod = 0.5 # Optional: slight recovery buffer so boost feels punchy
+		
+		shake_time += delta * engine_shake_speed * dynamic_speed_mod
+		
+		# Offset the local origin positions using layered high-frequency sine patterns
+		car_body.transform.origin.x = original_body_pos.x + (sin(shake_time) * engine_shake_amount * dynamic_shake_mod * 0.4)
+		car_body.transform.origin.y = original_body_pos.y + (sin(shake_time * 1.2) * engine_shake_amount * dynamic_shake_mod)
+		car_body.transform.origin.z = original_body_pos.z + (cos(shake_time * 0.9) * engine_shake_amount * dynamic_shake_mod * 0.3)
 
 
 # Core function calculating Hooke's Law Spring equations + Damping via Raycast properties
