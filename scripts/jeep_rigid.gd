@@ -133,7 +133,20 @@ func _physics_process(delta: float) -> void:
 	angular_velocity.z = lerp(angular_velocity.z, 0.0, stabilize_rate)
 
 	# 6. VISUAL WHEEL ROTATION AND STEERING ANIMATION 
-	current_wheel_roll += forward_speed * delta * 12.0
+	# FIXED SYNCHRONIZATION: Calculate wheel angular velocity based on true tire circumference bounds ($v = \omega \cdot r$)
+	var effective_roll_speed = forward_speed
+	
+	# If braking or no gas input is held, drop rolling speed smoothly to prevent erratic hyper-spinning
+	if is_braking:
+		effective_roll_speed = 0.0
+	elif not forward and not backward and is_touching_ground:
+		effective_roll_speed = move_toward(forward_speed, 0.0, delta * speed * 2.0)
+
+	if wheel_radius > 0.0:
+		current_wheel_roll += (effective_roll_speed / wheel_radius) * delta
+	else:
+		current_wheel_roll += effective_roll_speed * delta * 2.8
+		
 	current_wheel_roll = wrapf(current_wheel_roll, -PI, PI)
 
 	var target_steer_angle = steer_input * 0.45
