@@ -2,10 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://dnfyidk480vmf" path="res://scenes/jeep.tscn" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://b46xdcb5ongou" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://b52483bmqmnx3" path="res://assets/uvs/ground/diff.jpg" id="2_tefeu"]
+[ext_resource type="Texture2D" uid="uid://r70kexcisgt8" path="res://assets/uvs/ground/normal.jpg" id="3_o6xl0"]
 [ext_resource type="Script" uid="uid://bmg88iv8ep7qr" path="res://scripts/camera_3d.gd" id="3_sugp2"]
+[ext_resource type="Texture2D" uid="uid://bk5bcqfm6efgp" path="res://assets/uvs/ground/arm.jpg" id="4_tipki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ylpw"]
 size = Vector3(500, 1, 500)
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_85g3d"]
+albedo_texture = ExtResource("2_tefeu")
+orm_texture = ExtResource("4_tipki")
+normal_enabled = true
+normal_texture = ExtResource("3_o6xl0")
+uv1_scale = Vector3(20, 20, 20)
 
 [sub_resource type="BoxMesh" id="BoxMesh_pybca"]
 size = Vector3(500, 1, 500)
@@ -26,11 +36,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 shape = SubResource("BoxShape3D_7ylpw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1733497317]
+material_override = SubResource("ORMMaterial3D_85g3d")
 mesh = SubResource("BoxMesh_pybca")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=623489221]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 250, 250, -250)
-light_color = Color(0.9882353, 0.9411765, 0.7529412, 1)
 shadow_enabled = true
 
 [node name="Marker3D" type="Marker3D" parent="." unique_id=547063266]
@@ -39,12 +49,12 @@ unique_name_in_owner = true
 [node name="Camera3D" type="Camera3D" parent="Marker3D" unique_id=949047221]
 transform = Transform3D(0.7071067, -0.3535534, 0.61237234, 0, 0.8660254, 0.5, -0.7071067, -0.3535534, 0.61237234, 30, 30, 30)
 projection = 1
-size = 30.0
+size = 20.0
 far = 250.0
 script = ExtResource("3_sugp2")
 
 [node name="Elevated_Terrian" type="StaticBody3D" parent="." unique_id=1884955001]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -39.608597)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -39.608597)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian" unique_id=1276192414]
 transform = Transform3D(0.9396926, -0.34202012, 0, 0.33682406, 0.9254165, -0.17364818, 0.05939117, 0.16317591, 0.9848077, 0, 0, 0)
@@ -66,7 +76,7 @@ transform = Transform3D(0.9396926, -0.34202012, 0, 0.33682406, 0.9254165, -0.173
 shape = SubResource("BoxShape3D_jyhfs")
 
 [node name="Elevated_Terrian3" type="StaticBody3D" parent="." unique_id=1060438887]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.6085968)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -1.6085968)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian3" unique_id=207516596]
 transform = Transform3D(0.9396926, -0.34202012, 0, 0.33682406, 0.9254165, -0.17364818, 0.05939117, 0.16317591, 0.9848077, 0, 0, 0)
@@ -77,7 +87,7 @@ transform = Transform3D(0.9396926, -0.34202012, 0, 0.33682406, 0.9254165, -0.173
 shape = SubResource("BoxShape3D_jyhfs")
 
 [node name="Elevated_Terrian4" type="StaticBody3D" parent="." unique_id=126397659]
-transform = Transform3D(0.18300985, 0.09449568, 0.97855896, -0.8013464, 0.59095836, 0.09280105, -0.56951845, -0.80114806, 0.18387501, -7.2939844, 0, 21.572737)
+transform = Transform3D(0.18300985, 0.09449568, 0.97855896, -0.8013464, 0.59095836, 0.09280105, -0.56951845, -0.80114806, 0.18387501, -32.393986, 0, 21.572737)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian4" unique_id=917785852]
 transform = Transform3D(0.9396926, -0.34202012, 0, 0.33682406, 0.9254165, -0.17364818, 0.05939117, 0.16317591, 0.9848077, 0, 0, 0)
@@ -89,3 +99,14 @@ shape = SubResource("BoxShape3D_jyhfs")
 
 [node name="Jeep" parent="." unique_id=159868928 instance=ExtResource("1_0wfyh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="Elevated_Terrian5" type="StaticBody3D" parent="." unique_id=777481903]
+transform = Transform3D(1, 0, 0, 0, 0.9063077, -0.42261824, 0, 0.42261824, 0.9063077, 0, 2.5, -40)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian5" unique_id=1721914579]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian5" unique_id=354847784]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
