@@ -5,7 +5,12 @@ extends RigidBody3D
 @export var acceleration: float = 0.08      
 @export var turnSpeed: float = 3.5          
 @export var turnAcceleration: float = 0.3
-@export var boostMultiplier: float = 1.5
+
+@export_group("NOS System (NFS Style)")
+@export var nos_top_speed_multiplier: float = 1.5
+@export var nos_acceleration_boost: float = 0.12
+@export var nos_build_up_speed: float = 2.0
+@export var nos_fade_speed: float = 4.0
 
 @export_group("Car Physics & Grip")
 @export var tire_grip: float = 0.85         
@@ -14,7 +19,7 @@ extends RigidBody3D
 @export var coast_friction: float = 0.015   
 @export var coast_grip_bite: float = 0.96   
 @export var coast_turn_multiplier: float = 0.15 
-@export var drift_fade_speed: float = 2.2   # NEW: Lower value = longer, wider slides after letting go of keys
+@export var drift_fade_speed: float = 2.2   
 
 @export_group("Raycast Suspension Physics")
 @export var suspension_rest_distance: float = 0.55  
@@ -24,7 +29,7 @@ extends RigidBody3D
 
 @export_group("Anti-Roll System")
 @export var anti_roll_stiffness: float = 10000.0    
-@export var auto_upright_force: float = 12.0        
+@export var auto_upright_force: float = 6.0 # Adjusted for smooth cross-product rolling        
 
 @export_group("Suspension RayCast Nodes")
 @export var raycast_fl: RayCast3D        
@@ -37,6 +42,10 @@ extends RigidBody3D
 @onready var front_right_wheel: Node3D = $Suspension_FR/FR_Wheel
 @onready var rear_left_wheel: Node3D = $Suspension_RL/RL_Wheel
 @onready var rear_right_wheel: Node3D =  $Suspension_RR/RR_Wheel
+
+@export_group("Camera System")
+@onready var chase_camera: Camera3D = $Marker3D_Chase/chase_camera
+@onready var tpp_camera: Camera3D = $Marker3D_TPP/tpp_camera
 
 @onready var car_body: Node3D =  $Body/Body_Object
 
@@ -62,8 +71,8 @@ var current_pitch: float = 0.0
 var current_roll: float = 0.0
 var shake_time: float = 0.0
 
-# NEW tracking variable for memory-based sliding momentum
 var current_drift_intensity: float = 0.0
+var current_nos_intensity: float = 0.0 # NEW: Tracks the gradual build-up of NOS
 
 func _ready() -> void:
 	contact_monitor = false
@@ -76,6 +85,10 @@ func _ready() -> void:
 	if front_right_wheel: scale_fr = front_right_wheel.transform.basis.get_scale()
 	if rear_left_wheel: scale_rl = rear_left_wheel.transform.basis.get_scale()
 	if rear_right_wheel: scale_rr = rear_right_wheel.transform.basis.get_scale()
+	
+	# Ensure a default camera is active on start
+	if chase_camera:
+		chase_camera.make_current()
 
 func _physics_process(delta: float) -> void:
 	# 1. RAYCAST SUSPENSION & ANTI-ROLL BAR
@@ -109,8 +122,10 @@ func _physics_process(delta: float) -> void:
 	var right = Input.is_action_pressed("move_right")
 	var forward = Input.is_action_pressed("move_forward") if is_touching_ground else false
 	var backward = Input.is_action_pressed("move_backward") if is_touching_ground else false
-	var boost = Input.is_action_pressed("boost_speed") if is_touching_ground else false
 	var is_braking = Input.is_action_pressed("ui_accept") if is_touching_ground else false
+	
+	# UPDATED NOS LOGIC: Only allow boost if we are actively holding the forward gas pedal and NOT reversing/braking
+	var boost = Input.is_action_pressed("boost_speed") if (is_touching_ground and forward and not backward and not is_braking) else false
 
 	# 3. ORIENTATION & INPUT VECTORS
 	var forward_vec = -global_transform.basis.z
@@ -122,7 +137,15 @@ func _physics_process(delta: float) -> void:
 	var drive_dir = (1.0 if forward else 0.0) - (1.0 if backward else 0.0)
 
 	# 4. 3D HILL-CLIMBING DRIVE FORCE, COASTING & DRIFTING
-	var current_max_speed = speed * boostMultiplier if boost else speed
+	
+	# Handle NOS Build-up and Decay
+	if boost:
+		current_nos_intensity = move_toward(current_nos_intensity, 1.0, delta * nos_build_up_speed)
+	else:
+		current_nos_intensity = move_toward(current_nos_intensity, 0.0, delta * nos_fade_speed)
+
+	var active_nos_multiplier = lerp(1.0, nos_top_speed_multiplier, current_nos_intensity)
+	var current_max_speed = speed * active_nos_multiplier
 	var active_grip = tire_grip 
 	
 	if is_touching_ground:
@@ -130,9 +153,10 @@ func _physics_process(delta: float) -> void:
 		var suspension_vertical_speed = linear_velocity.dot(up_vec) 
 		
 		var target_forward_speed = drive_dir * current_max_speed
-		var current_accel_rate = acceleration
 		
-		# Set up the baseline grip for normal/braking/coasting
+		# Base acceleration gets a massive kick when NOS is flowing
+		var current_accel_rate = acceleration + (nos_acceleration_boost * current_nos_intensity)
+		
 		var baseline_grip = tire_grip
 		if is_braking:
 			current_accel_rate = brake_strength
@@ -147,19 +171,15 @@ func _physics_process(delta: float) -> void:
 			target_forward_speed = 0.0
 			baseline_grip = coast_grip_bite
 
-		# Check if vehicle has speed intent to drift
 		var is_moving_with_intent = (forward and forward_speed > 6.0) or (backward and forward_speed < -6.0)
 		
-		# UPDATED DRIFT INTENSITY MANAGEMENT:
-		# If we are holding the turn button down while moving, build up drift state.
-		# If we release the button, smoothly drop it over time instead of instantly snapping.
 		if steer_input != 0.0 and is_moving_with_intent:
 			current_drift_intensity = move_toward(current_drift_intensity, 1.0, delta * 4.0)
-			if boost: target_forward_speed *= 1.1 
+			# Extra speed kick while drifting with NOS
+			if current_nos_intensity > 0.1: target_forward_speed *= 1.1 
 		else:
 			current_drift_intensity = move_toward(current_drift_intensity, 0.0, delta * drift_fade_speed)
 
-		# Smoothly blend from the drift traction back to full baseline grip
 		active_grip = lerp(baseline_grip, drift_grip, current_drift_intensity)
 
 		var next_forward_speed = lerp(forward_speed, target_forward_speed, current_accel_rate)
@@ -168,7 +188,6 @@ func _physics_process(delta: float) -> void:
 		var new_ground_velocity = (forward_vec * next_forward_speed) + (right_vec * next_lateral_speed) + (up_vec * suspension_vertical_speed)
 		linear_velocity = new_ground_velocity
 
-		# STATIONARY SLEEP
 		if drive_dir == 0.0 and abs(forward_speed) < 1.0 and steer_input == 0.0 and current_drift_intensity < 0.1:
 			linear_velocity.x = lerp(linear_velocity.x, 0.0, 5.0 * delta)
 			linear_velocity.z = lerp(linear_velocity.z, 0.0, 5.0 * delta)
@@ -188,30 +207,35 @@ func _physics_process(delta: float) -> void:
 		else:
 			target_ang_vel = steer_input * turnSpeed * 0.8 
 	else:
-		# NEW LOGIC: Follow through with rotational force when buttons are left go
-		# If the jeep is still tracking through a lingering drift slide, maintain a decay 
-		# profile of the current spin speed so the back body finishes the swing.
 		if is_touching_ground and current_drift_intensity > 0.05:
 			target_ang_vel = angular_velocity.y * 0.88
 
-	# Dynamic weight distribution for angular adjustments
 	if is_touching_ground and drive_dir == 0.0:
 		var weight = 0.45 if (steer_input == 0.0 and current_drift_intensity < 0.1) else turnAcceleration
 		angular_velocity.y = lerp(angular_velocity.y, target_ang_vel, weight)
 	else:
-		# NEW LOGIC: Soften the deceleration response when finishing a slide out
 		var active_turn_accel = turnAcceleration
 		if steer_input == 0.0 and current_drift_intensity > 0.05:
-			active_turn_accel = turnAcceleration * 0.25 # Reduces snapping; allows momentum to carry the turn
+			active_turn_accel = turnAcceleration * 0.25 
 		angular_velocity.y = lerp(angular_velocity.y, target_ang_vel, active_turn_accel)
 	
+	# 6. MID-AIR & STRANDED AUTO-UPRIGHT (NFS Cross-Product Style)
 	if not is_touching_ground:
-		var up_dir = global_transform.basis.y
-		if up_dir.y < 0.95: 
-			angular_velocity.x = lerp(angular_velocity.x, 0.0, auto_upright_force * delta)
-			angular_velocity.z = lerp(angular_velocity.z, 0.0, auto_upright_force * delta)
+		var current_up = global_transform.basis.y
+		
+		# If the car is not perfectly upright (less than 0.95 alignment with the sky)
+		if current_up.y < 0.95: 
+			# The cross product finds the exact rotational axis needed to correct the car
+			var correction_axis = current_up.cross(Vector3.UP)
+			
+			# Apply the rotational nudge to flip the car back onto its wheels
+			angular_velocity += correction_axis * auto_upright_force * delta
+			
+			# Dampen wild spinning so it doesn't overshoot and barrel-roll forever
+			angular_velocity.x = lerp(angular_velocity.x, 0.0, 3.0 * delta)
+			angular_velocity.z = lerp(angular_velocity.z, 0.0, 3.0 * delta)
 
-	# 6. VISUAL WHEELS
+	# 7. VISUAL WHEELS
 	var effective_roll_speed = forward_speed
 	if is_braking:
 		effective_roll_speed = 0.0
@@ -236,7 +260,7 @@ func _physics_process(delta: float) -> void:
 	if rear_left_wheel: rear_left_wheel.transform.basis = roll_basis.scaled(scale_rl)
 	if rear_right_wheel: rear_right_wheel.transform.basis = roll_basis.scaled(scale_rr)
 
-	# 7. CHASSIS BODY LEAN
+	# 8. CHASSIS BODY LEAN & SHAKE
 	if car_body:
 		var target_pitch = 0.0
 		var target_roll = 0.0
@@ -250,7 +274,6 @@ func _physics_process(delta: float) -> void:
 				target_pitch = suspension_dive_pitch
 				
 			var turn_intensity = clamp(forward_speed / 15.0, -1.0, 1.0)
-			# Modified to account for continuous lingering drift intensity visually
 			var combined_steer_visual = steer_input if steer_input != 0.0 else (sign(angular_velocity.y) * current_drift_intensity * 0.6)
 			target_roll = -combined_steer_visual * suspension_lean_roll * abs(turn_intensity)
 
@@ -258,7 +281,8 @@ func _physics_process(delta: float) -> void:
 		current_roll = lerp(current_roll, target_roll, lean_return_speed * delta)
 		car_body.transform.basis = Basis.from_euler(Vector3(current_pitch, 0.0, current_roll))
 
-		var dynamic_shake_mod = 0.5 if boost else (0.2 if (forward or backward) else 1.0)
+		# Shake intensity gets wilder based on NOS intensity
+		var dynamic_shake_mod = lerp(0.2, 1.2, current_nos_intensity) if boost else (0.2 if (forward or backward) else 1.0)
 		shake_time += delta * engine_shake_speed
 		car_body.transform.origin.x = original_body_pos.x + (sin(shake_time) * engine_shake_amount * dynamic_shake_mod * 0.4)
 		car_body.transform.origin.y = original_body_pos.y + (sin(shake_time * 1.2) * engine_shake_amount * dynamic_shake_mod)
@@ -306,3 +330,22 @@ func _calculate_velocity_at_global_point(global_point: Vector3) -> Vector3:
 	var global_center_of_mass = global_transform.origin + global_transform.basis * center_of_mass
 	var relative_point_position = global_point - global_center_of_mass
 	return linear_velocity + angular_velocity.cross(relative_point_position)
+
+# ==========================================
+# INPUT HANDLING (CAMERA SWITCH)
+# ==========================================
+func _input(event: InputEvent) -> void:
+	# Trigger strictly when 'C' is freshly pressed
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_C:
+			switch_cameras()
+
+func switch_cameras() -> void:
+	if not chase_camera or not tpp_camera:
+		push_warning("Camera Switch Error: Chase or TPP camera node is missing!")
+		return
+		
+	if chase_camera.current:
+		tpp_camera.make_current()
+	else:
+		chase_camera.make_current()
