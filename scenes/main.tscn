@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://b52483bmqmnx3" path="res://assets/uvs/ground/diff.jpg" id="2_tefeu"]
 [ext_resource type="Texture2D" uid="uid://r70kexcisgt8" path="res://assets/uvs/ground/normal.jpg" id="3_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://bk5bcqfm6efgp" path="res://assets/uvs/ground/arm.jpg" id="4_tipki"]
+[ext_resource type="Script" uid="uid://cv4j3d46dmk3u" path="res://scripts/camera/chase_camera.gd" id="6_o6xl0"]
+[ext_resource type="Script" uid="uid://dhdufo0324yef" path="res://scripts/camera/tpp_camera.gd" id="7_tipki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ylpw"]
 size = Vector3(500, 1, 500)
@@ -99,3 +101,24 @@ mesh = SubResource("BoxMesh_sugp2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian5" unique_id=354847784]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Marker3D_Chase" type="Marker3D" parent="." unique_id=288902746]
+transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 2, 2.5)
+
+[node name="chase_camera" type="Camera3D" parent="Marker3D_Chase" unique_id=345926446]
+script = ExtResource("6_o6xl0")
+follow_height = 3.0
+position_smoothness = 10.0
+drift_swing_amount = 1.0
+look_height_offset = 1.5
+look_smoothness = 20.0
+
+[node name="Marker3D_TPP" type="Marker3D" parent="." unique_id=1778910650]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 15, 10)
+
+[node name="tpp_camera" type="Camera3D" parent="Marker3D_TPP" unique_id=485567005]
+transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
+projection = 1
+size = 20.0
+far = 250.0
+script = ExtResource("7_tipki")

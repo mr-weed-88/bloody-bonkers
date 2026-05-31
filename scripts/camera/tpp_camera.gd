@@ -1,8 +1,9 @@
 extends Camera3D
 
 @export_group("Tracking")
-@export var target: Node3D # Drag your Jeep here in the Inspector
+@export var target: Node3D 
 @export var smooth_speed: float = 5.0
+@onready var target_vehicle: RigidBody3D = $"../../Jeep"
 
 @export_group("Orthographic Zoom Effect")
 @export var zoom_speed: float = 4.0
@@ -14,12 +15,10 @@ var base_size: float
 var target_size: float
 
 func _ready() -> void:
-	# 1. If not assigned in Inspector, try to find it
 	if not target:
-		target = get_tree().current_scene.find_child("Jeep", true, false) as Node3D
+		target = target_vehicle
 	
 	if target:
-		# Calculate the fixed world-space offset
 		offset = global_position - target.global_position
 	else:
 		push_error("Orthographic Camera: No target found!")
@@ -31,16 +30,14 @@ func _physics_process(delta: float) -> void:
 	if not target:
 		return
 		
-	# --- 1. POSITION TRACKING (World Space) ---
-	# We follow the position, but by not being a child, we ignore rotation
+	# 1. POSITION TRACKING (World Space)
 	var target_position = target.global_position + offset
 	global_position = global_position.lerp(target_position, smooth_speed * delta)
 	
-	# --- 2. CAMERA LOOK (Locked to World Up) ---
-	# This keeps the camera pointed at the car without rolling when the car flips
+	# 2. CAMERA LOOK (Locked to World Up)
 	look_at(target.global_position, Vector3.UP)
 	
-	# --- 3. SMART CONTEXTUAL ZOOM ---
+	# 3. SMART CONTEXTUAL ZOOM
 	var is_boosting = Input.is_action_pressed("boost_speed")
 	var is_driving = Input.is_action_pressed("move_forward") or Input.is_action_pressed("move_backward")
 	
