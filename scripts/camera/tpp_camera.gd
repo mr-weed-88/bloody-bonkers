@@ -5,6 +5,9 @@ extends Camera3D
 @export var smooth_speed: float = 5.0
 @onready var target_vehicle: RigidBody3D = $"../../Jeep"
 
+# NEW: Automatically pushes the camera node back to prevent environment clipping
+@export var physical_distance_buffer: float = 120.0 
+
 @export_group("Orthographic Zoom Effect")
 @export var zoom_speed: float = 4.0
 @export var boost_zoom_increase: float = 10.0
@@ -19,7 +22,10 @@ func _ready() -> void:
 		target = target_vehicle
 	
 	if target:
-		offset = global_position - target.global_position
+		# Calculate the direction angle from the editor placement, 
+		# then force it out to our safe physical distance buffer.
+		var raw_offset = global_position - target.global_position
+		offset = raw_offset.normalized() * physical_distance_buffer
 	else:
 		push_error("Orthographic Camera: No target found!")
 		

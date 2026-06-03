@@ -129,8 +129,277 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 20, 20)
 
 [node name="tpp_camera" type="Camera3D" parent="Marker3D_TPP" unique_id=485567005]
 transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
+projection = 1
 fov = 60.0
 size = 30.0
 near = 0.01
 far = 250.0
 script = ExtResource("7_tipki")
+smooth_speed = null
+physical_distance_buffer = null
+zoom_speed = null
+boost_zoom_increase = null
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="." unique_id=660290852]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 34.5, -0.6321465, 51.412178)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7" unique_id=1031273285]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7" unique_id=647550255]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7" unique_id=2090987362]
+transform = Transform3D(1, 0, 0, 0, 0.99999917, 0, 0, 0, 0.99999917, 3.6000023, 0.3678531, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7" unique_id=1300810753]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7" unique_id=443691848]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7" unique_id=1683137587]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1841115895]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=419392271]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=562083608]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=2068495033]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=2019784404]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=2055975714]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1119481588]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=856974643]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=756804250]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1097720221]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=216570160]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1192418311]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=252238378]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=366114703]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=39406653]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1512017855]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=469417679]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=971455807]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1818765745]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1486224039]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=640242365]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=274208890]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=760462500]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1396311702]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=671127538]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1709175846]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=181789923]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=126409007]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=904215307]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=855616415]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1089907153]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=995162479]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=89453364]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1929206587]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=118791543]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=712838401]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=411943935]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1813801243]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=530205344]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=729218096]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=554114157]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=481329391]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1986166904]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1291392443]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1962447265]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=2087422696]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=2022758150]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1161386662]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1763921089]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1704270058]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=750459970]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=652173310]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=2035556379]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1240182537]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=719563363]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=383954951]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1998112098]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1358679048]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1514528854]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=577534603]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=176030799]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=13209411]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian7" type="StaticBody3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1224477064]
+transform = Transform3D(1, 0, 0, 0, 0.99999905, 0, 0, 0, 0.99999905, 4.200001, 0.5678532, 0.011146545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=1837631040]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7/Elevated_Terrian7" unique_id=791851796]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")

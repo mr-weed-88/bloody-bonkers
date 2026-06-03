@@ -1,17 +1,20 @@
 extends RigidBody3D
 
 @export_group("Movement Settings")
-@export var max_speed: float = 55.0         
+@export var max_speed: float = 50.0         
 @export var acceleration: float = 15.0      
 @export var turn_speed: float = 1.8         
 @export var turn_acceleration: float = 0.3
 
 @export_group("Boost System (NFS Style)")
-@export var boost_multiplier: float = 1.4   
+@export var boost_multiplier: float = 2.5
 @export var max_boost_amount: float = 10.0  
 @export var boost_deplete_rate: float = 3.5 
 @export var boost_refill_rate: float = 1.5  
+@export var boost_cooldown_time: float = 5.0       # Delay before refilling starts
+@export var drift_refill_multiplier: float = 3.0   # How much faster drifting fills NOS
 var current_boost: float = 10.0             
+var boost_timer: float = 0.0                       # Internal cooldown tracker
 
 @export_group("Car Physics & Grip")
 @export var tire_grip: float = 0.88         
@@ -19,13 +22,13 @@ var current_boost: float = 10.0
 @export var drift_grip: float = 0.18        
 
 @export_group("Heavy Vehicle Physics")
-@export var custom_gravity_scale: float = 5.0 # TUNABLE: Higher = heavier drops. Dial this up or down in the Inspector!
+@export var custom_gravity_scale: float = 5.0 
 
 @export_group("Raycast Suspension Physics")
 @export var suspension_rest_distance: float = 0.50  
-@export var spring_stiffness: float = 180.0 # Bumped up to support the new heavy gravity weight     
-@export var spring_damping: float = 18.0    # Bumped up to stop the chassis from bottoming out       
-@export var wheel_radius: float = 0.40             
+@export var spring_stiffness: float = 180.0 
+@export var spring_damping: float = 18.0    
+@export var wheel_radius: float = 0.40              
 
 @export_group("Suspension RayCast Nodes")
 @export var raycast_fl: RayCast3D        
@@ -65,8 +68,6 @@ var shake_time: float = 0.0
 
 func _ready() -> void:
 	contact_monitor = false
-	
-	# Apply your custom heavy gravity scaling to the RigidBody naturally
 	gravity_scale = custom_gravity_scale
 	
 	if car_body:
@@ -78,7 +79,6 @@ func _ready() -> void:
 	if rear_right_wheel: scale_rr = rear_right_wheel.transform.basis.get_scale()
 
 func _physics_process(delta: float) -> void:
-	# Dynamically update in case you tweak it mid-game inside the editor
 	gravity_scale = custom_gravity_scale
 
 	# 1. SUSPENSION & GROUNDING
@@ -106,14 +106,10 @@ func _physics_process(delta: float) -> void:
 	var speed_ratio = clamp(abs(forward_speed) / max_speed, 0.0, 1.0) 
 	var steer_input = (1.0 if left else 0.0) - (1.0 if right else 0.0)
 
-	# 4. BOOST GAUGE
+	# 4. BOOST INTENT
 	var is_boosting = false
 	if boost and current_boost > 0.0 and (forward or backward):
 		is_boosting = true
-		current_boost = max(0.0, current_boost - (boost_deplete_rate * delta))
-	else:
-		if abs(forward_speed) > 10.0:
-			current_boost = min(max_boost_amount, current_boost + (boost_refill_rate * delta))
 
 	# 5. DRIVE FORCE, TORQUE CURVE & GRIP
 	var current_max_speed = max_speed * boost_multiplier if is_boosting else max_speed
@@ -127,18 +123,24 @@ func _physics_process(delta: float) -> void:
 		var next_forward_speed = forward_speed
 		var active_grip = tire_grip
 
-		# Heavy Diesel Torque
 		var current_acceleration = acceleration
 		if speed_ratio < 0.4 and drive_dir != 0:
 			current_acceleration *= 1.8 
 
 		# DRIFT & BRAKE LOGIC
 		if is_braking:
-			if abs(forward_speed) > 15.0 and (forward or backward) and steer_input != 0.0:
+			# REMOVED: (forward or backward) check so you can drift using inertia/momentum alone
+			if abs(forward_speed) > 15.0 and steer_input != 0.0:
 				is_drifting = true
 				active_grip = drift_grip
-				next_forward_speed = move_toward(forward_speed, target_forward_speed, current_acceleration * delta)
+				
+				if drive_dir == 0.0:
+					# If drifting without holding gas, bleed off forward speed gradually instead of stopping instantly
+					next_forward_speed = move_toward(forward_speed, 0.0, (brake_strength * 0.25) * delta)
+				else:
+					next_forward_speed = move_toward(forward_speed, target_forward_speed, current_acceleration * delta)
 			else:
+				# Standard straight-line braking
 				target_forward_speed = 0.0
 				next_forward_speed = move_toward(forward_speed, target_forward_speed, brake_strength * delta)
 		else:
@@ -152,6 +154,19 @@ func _physics_process(delta: float) -> void:
 		var new_ground_velocity = (forward_vec * next_forward_speed) + (right_vec * next_lateral_speed)
 		linear_velocity.x = new_ground_velocity.x
 		linear_velocity.z = new_ground_velocity.z
+
+	# 5.5 BOOST GAUGE MANAGEMENT (NFS Style)
+	if is_boosting:
+		current_boost = max(0.0, current_boost - (boost_deplete_rate * delta))
+		boost_timer = boost_cooldown_time 
+	else:
+		if boost_timer > 0.0:
+			boost_timer -= delta
+		elif abs(forward_speed) > 10.0:
+			var active_refill = boost_refill_rate
+			if is_drifting:
+				active_refill *= drift_refill_multiplier
+			current_boost = min(max_boost_amount, current_boost + (active_refill * delta))
 
 	# 6. DYNAMIC STEERING WEIGHT
 	var target_ang_vel = 0.0
@@ -206,7 +221,7 @@ func _physics_process(delta: float) -> void:
 	# 8. CHASSIS BODY LEAN 
 	if car_body:
 		var target_pitch = 0.0
-		var target_roll = 0.0
+		var target_roll = 0.0 
 		
 		if is_touching_ground:
 			if (is_braking or backward) and abs(forward_speed) > 1.0:
@@ -216,12 +231,6 @@ func _physics_process(delta: float) -> void:
 				target_pitch = -suspension_dive_pitch * boost_factor
 			elif backward:
 				target_pitch = suspension_dive_pitch
-				
-			var turn_intensity = clamp(forward_speed / max_speed, -1.0, 1.0)
-			target_roll = -steer_input * suspension_lean_roll * abs(turn_intensity)
-			
-			if is_drifting:
-				target_roll *= 1.5
 
 		current_pitch = lerp(current_pitch, target_pitch, lean_return_speed * delta)
 		current_roll = lerp(current_roll, target_roll, lean_return_speed * delta)
@@ -241,7 +250,6 @@ func _physics_process(delta: float) -> void:
 		car_body.transform.origin.x = original_body_pos.x + (sin(shake_time) * engine_shake_amount * dynamic_shake_mod * 0.4)
 		car_body.transform.origin.y = original_body_pos.y + (sin(shake_time * 1.2) * engine_shake_amount * dynamic_shake_mod)
 		car_body.transform.origin.z = original_body_pos.z + (cos(shake_time * 0.9) * engine_shake_amount * dynamic_shake_mod * 0.3)
-
 
 func _process_suspension_spring(raycast: RayCast3D, wheel_mesh: Node3D) -> bool:
 	if not raycast: return false
@@ -266,7 +274,6 @@ func _process_suspension_spring(raycast: RayCast3D, wheel_mesh: Node3D) -> bool:
 		
 		var total_suspension_force = (upward_spring_force - damping_force) * spring_dir
 		
-		# Upper clamp dynamic limits adjusted to offset stronger gravity fields
 		total_suspension_force = total_suspension_force.clamp(Vector3(-2500,-2500,-2500), Vector3(2500,2500,2500))
 		
 		apply_force(total_suspension_force, raycast.global_transform.origin - global_transform.origin)
