@@ -3,8 +3,8 @@ extends RigidBody3D
 @export_group("Movement Settings")
 @export var max_speed: float = 50.0         
 @export var acceleration: float = 15.0      
-@export var turn_speed: float = 1.8         
-@export var turn_acceleration: float = 0.3
+@export var turn_speed: float = 4.5         
+@export var turn_acceleration: float = 0.35
 
 @export_group("Boost System (NFS Style)")
 @export var boost_multiplier: float = 2.5
@@ -17,9 +17,9 @@ var current_boost: float = 10.0
 var boost_timer: float = 0.0                       # Internal cooldown tracker
 
 @export_group("Car Physics & Grip")
-@export var tire_grip: float = 0.88         
-@export var brake_strength: float = 40.0    
-@export var drift_grip: float = 0.18        
+@export var tire_grip: float = 1.0      
+@export var brake_strength: float = 20.0    
+@export var drift_grip: float = 0.35        # UPDATED: Lowered from 1.0 so the car actually slides
 
 @export_group("Heavy Vehicle Physics")
 @export var custom_gravity_scale: float = 5.0 
@@ -28,7 +28,7 @@ var boost_timer: float = 0.0                       # Internal cooldown tracker
 @export var suspension_rest_distance: float = 0.50  
 @export var spring_stiffness: float = 180.0 
 @export var spring_damping: float = 18.0    
-@export var wheel_radius: float = 0.40              
+@export var wheel_radius: float = 0.40             
 
 @export_group("Suspension RayCast Nodes")
 @export var raycast_fl: RayCast3D        
@@ -47,13 +47,15 @@ var boost_timer: float = 0.0                       # Internal cooldown tracker
 @export_group("Body Lean Aesthetics")
 @export var suspension_lean_roll: float = 0.08     
 @export var suspension_dive_pitch: float = 0.03   
-@export var lean_return_speed: float = 8.0
+@export var lean_return_speed: float = 12.0 # UPDATED: Bumped to 12.0 to smooth out chassis snap
 
 @export_group("Engine Idle Shake")
-@export var engine_shake_amount: float = 0.25     
-@export var engine_shake_speed: float = 45.0      
+@export var engine_shake_amount: float = 0.20
+@export var engine_shake_speed: float = 50.0      
 
-var current_wheel_roll: float = 0.0
+# FIXED: Split rolling trackers to calculate realistic wheel-ground velocities
+var current_front_wheel_roll: float = 0.0
+var current_rear_wheel_roll: float = 0.0
 var current_steer_angle: float = 0.0
 
 var scale_fl: Vector3 = Vector3.ONE
@@ -121,7 +123,6 @@ func _physics_process(delta: float) -> void:
 
 		var target_forward_speed = drive_dir * current_max_speed
 		var next_forward_speed = forward_speed
-		var active_grip = tire_grip
 
 		var current_acceleration = acceleration
 		if speed_ratio < 0.4 and drive_dir != 0:
@@ -129,27 +130,28 @@ func _physics_process(delta: float) -> void:
 
 		# DRIFT & BRAKE LOGIC
 		if is_braking:
-			# REMOVED: (forward or backward) check so you can drift using inertia/momentum alone
-			if abs(forward_speed) > 15.0 and steer_input != 0.0:
+			# UPDATED: Changed threshold from 15.0 to 30.0
+			if abs(forward_speed) > 40.0 and steer_input != 0.0:
 				is_drifting = true
-				active_grip = drift_grip
-				
 				if drive_dir == 0.0:
-					# If drifting without holding gas, bleed off forward speed gradually instead of stopping instantly
 					next_forward_speed = move_toward(forward_speed, 0.0, (brake_strength * 0.25) * delta)
 				else:
 					next_forward_speed = move_toward(forward_speed, target_forward_speed, current_acceleration * delta)
 			else:
-				# Standard straight-line braking
 				target_forward_speed = 0.0
 				next_forward_speed = move_toward(forward_speed, target_forward_speed, brake_strength * delta)
 		else:
 			if drive_dir == 0.0:
-				next_forward_speed = move_toward(forward_speed, 0.0, (brake_strength * 0.3) * delta)
+				# FIXED: Progressive hill-hold deceleration to counter-act custom gravity scale on planes
+				var hill_hold_force = brake_strength if abs(forward_speed) < 6.0 else (brake_strength * 0.4)
+				next_forward_speed = move_toward(forward_speed, 0.0, hill_hold_force * delta)
 			else:
 				next_forward_speed = move_toward(forward_speed, target_forward_speed, current_acceleration * delta)
 
-		var next_lateral_speed = lerp(lateral_speed, 0.0, active_grip)
+		# FIXED: Replaced loose lerp() loop with linear move_toward to completely kill lateral sliding on hills
+		var target_grip = drift_grip if is_drifting else tire_grip
+		var lateral_friction_limit = 55.0 * target_grip
+		var next_lateral_speed = move_toward(lateral_speed, 0.0, lateral_friction_limit * delta)
 
 		var new_ground_velocity = (forward_vec * next_forward_speed) + (right_vec * next_lateral_speed)
 		linear_velocity.x = new_ground_velocity.x
@@ -177,7 +179,8 @@ func _physics_process(delta: float) -> void:
 			
 			var dynamic_turn_speed = lerp(turn_speed, turn_speed * 0.6, speed_ratio)
 			if is_drifting:
-				dynamic_turn_speed = turn_speed * 1.5 
+				# UPDATED: Lowered from 1.5 to 1.15 to prevent the violent over-rotation
+				dynamic_turn_speed = turn_speed * 1.15 
 
 			var speed_turn_factor = clamp(abs(forward_speed) / 5.0, 0.0, 1.2)
 			target_ang_vel = steer_input * dynamic_turn_speed * speed_turn_factor * gear_dir
@@ -191,32 +194,43 @@ func _physics_process(delta: float) -> void:
 	angular_velocity.x = lerp(angular_velocity.x, 0.0, stabilize_rate)
 	angular_velocity.z = lerp(angular_velocity.z, 0.0, stabilize_rate)
 
-	# 7. VISUAL WHEEL ROTATION
-	var effective_roll_speed = forward_speed
-	
-	if is_braking and not is_drifting:
-		effective_roll_speed = 0.0
-	elif not forward and not backward and is_touching_ground:
-		effective_roll_speed = move_toward(forward_speed, 0.0, delta * max_speed * 2.0)
-
-	if wheel_radius > 0.0:
-		current_wheel_roll += (effective_roll_speed / wheel_radius) * delta
-	else:
-		current_wheel_roll += effective_roll_speed * delta * 2.8
-		
-	current_wheel_roll = wrapf(current_wheel_roll, -PI, PI)
-
+	# 7. FIXED: ACCURATE VISUAL WHEEL ROTATION
 	var target_steer_angle = steer_input * 0.45 
 	current_steer_angle = lerp(current_steer_angle, target_steer_angle, 0.2)
 
+	var rear_roll_speed = forward_speed
+	
+	# Calculate travel speed along the front wheels' exact steered heading in world space
+	var front_steer_local = Vector3.FORWARD.rotated(Vector3.UP, current_steer_angle)
+	var front_steer_world = (global_transform.basis * front_steer_local).normalized()
+	var front_roll_speed = linear_velocity.dot(-front_steer_world)
+	
+	if is_braking and not is_drifting:
+		rear_roll_speed = 0.0
+		front_roll_speed = 0.0
+	elif not forward and not backward and is_touching_ground:
+		rear_roll_speed = move_toward(forward_speed, 0.0, delta * max_speed * 2.0)
+		front_roll_speed = move_toward(front_roll_speed, 0.0, delta * max_speed * 2.0)
+
+	if wheel_radius > 0.0:
+		current_front_wheel_roll += (front_roll_speed / wheel_radius) * delta
+		current_rear_wheel_roll += (rear_roll_speed / wheel_radius) * delta
+	else:
+		current_front_wheel_roll += front_roll_speed * delta * 2.8
+		current_rear_wheel_roll += rear_roll_speed * delta * 2.8
+		
+	current_front_wheel_roll = wrapf(current_front_wheel_roll, -PI, PI)
+	current_rear_wheel_roll = wrapf(current_rear_wheel_roll, -PI, PI)
+
 	var front_steer_basis = Basis(Vector3.UP, current_steer_angle)
-	var roll_basis = Basis(Vector3.RIGHT, current_wheel_roll)
-	var combined_front_basis = front_steer_basis * roll_basis
+	var front_roll_basis = Basis(Vector3.RIGHT, current_front_wheel_roll)
+	var rear_roll_basis = Basis(Vector3.RIGHT, current_rear_wheel_roll)
+	var combined_front_basis = front_steer_basis * front_roll_basis
 
 	if front_left_wheel: front_left_wheel.transform.basis = combined_front_basis.scaled(scale_fl)
 	if front_right_wheel: front_right_wheel.transform.basis = combined_front_basis.scaled(scale_fr)
-	if rear_left_wheel: rear_left_wheel.transform.basis = roll_basis.scaled(scale_rl)
-	if rear_right_wheel: rear_right_wheel.transform.basis = roll_basis.scaled(scale_rr)
+	if rear_left_wheel: rear_left_wheel.transform.basis = rear_roll_basis.scaled(scale_rl)
+	if rear_right_wheel: rear_right_wheel.transform.basis = rear_roll_basis.scaled(scale_rr)
 
 	# 8. CHASSIS BODY LEAN 
 	if car_body:
