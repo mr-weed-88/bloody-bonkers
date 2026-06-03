@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://r70kexcisgt8" path="res://assets/uvs/ground/normal.jpg" id="3_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://bk5bcqfm6efgp" path="res://assets/uvs/ground/arm.jpg" id="4_tipki"]
 [ext_resource type="Script" uid="uid://cv4j3d46dmk3u" path="res://scripts/camera/chase_camera.gd" id="6_o6xl0"]
-[ext_resource type="Script" uid="uid://dhdufo0324yef" path="res://scripts/camera/tpp_camera.gd" id="7_tipki"]
+[ext_resource type="Script" uid="uid://ctnl4pqjk1xbw" path="res://scripts/camera/tpp_camera.gd" id="7_tipki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ylpw"]
 size = Vector3(500, 1, 500)
@@ -89,7 +89,7 @@ transform = Transform3D(0.9396926, -0.34202012, 0, 0.33682406, 0.9254165, -0.173
 shape = SubResource("BoxShape3D_jyhfs")
 
 [node name="Jeep" parent="." unique_id=159868928 instance=ExtResource("1_0wfyh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 3, 0)
 
 [node name="Elevated_Terrian5" type="StaticBody3D" parent="." unique_id=777481903]
 transform = Transform3D(1, 0, 0, 0, 0.9063077, -0.42261824, 0, 0.42261824, 0.9063077, 0, 2.5, -40)
@@ -99,6 +99,17 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0,
 mesh = SubResource("BoxMesh_sugp2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian5" unique_id=354847784]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="Elevated_Terrian6" type="StaticBody3D" parent="." unique_id=1025944415]
+transform = Transform3D(1, 0, 0, 0, 0.9063077, 0.42261824, 0, -0.42261824, 0.9063077, 0, 2.5, 51.412178)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian6" unique_id=1100929679]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_sugp2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevated_Terrian6" unique_id=1786975491]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 shape = SubResource("BoxShape3D_jyhfs")
 
@@ -114,11 +125,12 @@ look_height_offset = 1.5
 look_smoothness = 20.0
 
 [node name="Marker3D_TPP" type="Marker3D" parent="." unique_id=1778910650]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 15, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 20, 20)
 
 [node name="tpp_camera" type="Camera3D" parent="Marker3D_TPP" unique_id=485567005]
 transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
-projection = 1
-size = 20.0
+fov = 60.0
+size = 30.0
+near = 0.01
 far = 250.0
 script = ExtResource("7_tipki")
