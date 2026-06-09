@@ -1,7 +1,7 @@
 extends Camera3D
 
 @export_category("Target & Setup")
-@onready var target_vehicle: RigidBody3D = $"../../Jeep"
+@onready var target_vehicle: RigidBody3D = $"../../Mod_Jeep"
 
 @export_category("Camera Positioning")
 @export var base_follow_distance: float = 3.2   # LOWERED: Very close to the car at idle/low speeds

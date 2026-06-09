@@ -4,22 +4,23 @@
 [ext_resource type="Texture2D" uid="uid://b52483bmqmnx3" path="res://assets/uvs/ground/diff.jpg" id="2_tefeu"]
 [ext_resource type="Texture2D" uid="uid://r70kexcisgt8" path="res://assets/uvs/ground/normal.jpg" id="3_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://bk5bcqfm6efgp" path="res://assets/uvs/ground/arm.jpg" id="4_tipki"]
-[ext_resource type="Script" uid="uid://cv4j3d46dmk3u" path="res://scripts/camera/chase_camera.gd" id="6_o6xl0"]
-[ext_resource type="Script" uid="uid://ctnl4pqjk1xbw" path="res://scripts/camera/tpp_camera.gd" id="7_tipki"]
+[ext_resource type="Script" uid="uid://6x5lp055u7xs" path="res://scripts/camera/chase_camera.gd" id="6_o6xl0"]
+[ext_resource type="Script" uid="uid://bhgnkcsfwvwg6" path="res://scripts/camera/tpp_camera.gd" id="7_tipki"]
 [ext_resource type="PackedScene" uid="uid://drmh06gp26bs8" path="res://scenes/mod_jeep.tscn" id="8_tipki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ylpw"]
-size = Vector3(20000, 1, 20000)
+size = Vector3(2000, 0.5, 2000)
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_85g3d"]
 albedo_texture = ExtResource("2_tefeu")
 orm_texture = ExtResource("4_tipki")
 normal_enabled = true
 normal_texture = ExtResource("3_o6xl0")
-uv1_scale = Vector3(20, 20, 20)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 0.00014022038
 
 [sub_resource type="BoxMesh" id="BoxMesh_pybca"]
-size = Vector3(20000, 1, 20000)
+size = Vector3(2000, 0.5, 2000)
 
 [sub_resource type="BoxMesh" id="BoxMesh_sugp2"]
 size = Vector3(5, 1, 20)
@@ -86,7 +87,6 @@ shape = SubResource("BoxShape3D_jyhfs")
 
 [node name="Elevated_Terrian5" type="StaticBody3D" parent="." unique_id=777481903]
 transform = Transform3D(1, 0, 0, 0, 0.9063077, -0.42261824, 0, 0.42261824, 0.9063077, 0, 2.5, -40)
-visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian5" unique_id=1721914579]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -98,7 +98,6 @@ shape = SubResource("BoxShape3D_jyhfs")
 
 [node name="Elevated_Terrian6" type="StaticBody3D" parent="." unique_id=1025944415]
 transform = Transform3D(1, 0, 0, 0, 0.9063077, 0.42261824, 0, -0.42261824, 0.9063077, 0, 2.5, 51.412178)
-visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Elevated_Terrian6" unique_id=1100929679]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -3272,7 +3271,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 20, 20)
 transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
 projection = 1
 fov = 60.0
-size = 10.0
+size = 40.0
 near = 0.01
 far = 250.0
 script = ExtResource("7_tipki")

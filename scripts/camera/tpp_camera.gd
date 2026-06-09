@@ -3,7 +3,7 @@ extends Camera3D
 @export_group("Tracking")
 @export var target: Node3D 
 @export var smooth_speed: float = 5.0
-@onready var target_vehicle: RigidBody3D = $"../../Jeep"
+@onready var target_vehicle: RigidBody3D = $"../../Mod_Jeep"
 
 # NEW: Automatically pushes the camera node back to prevent environment clipping
 @export var physical_distance_buffer: float = 120.0 
