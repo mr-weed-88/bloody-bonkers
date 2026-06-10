@@ -4,10 +4,10 @@ extends Camera3D
 @onready var target_vehicle: RigidBody3D = $"../../Mod_Jeep"
 
 @export_category("Camera Positioning")
-@export var base_follow_distance: float = 3.2   # LOWERED: Very close to the car at idle/low speeds
+@export var base_follow_distance: float = 3.5   # LOWERED: Very close to the car at idle/low speeds
 @export var max_speed_distance_add: float = 0.8 # LOWERED: Barely pulls back, even at absolute max speed
-@export var follow_height: float = 2.6          # BALANCED: Adjusted down slightly to maintain the angle at closer range
-@export var position_smoothness: float = 7.0    # INCREASED: Snappier tracking to match the tight distance
+@export var follow_height: float = 0.1          # BALANCED: Adjusted down slightly to maintain the angle at closer range
+@export var position_smoothness: float = 8.0    # INCREASED: Snappier tracking to match the tight distance
 
 @export_category("Cinematic Drift & Turn Swing")
 @export var drift_swing_amount: float = 0.6    # REDUCED: Prevents the camera from clipping or whipping too far wide
@@ -18,11 +18,11 @@ extends Camera3D
 @export var look_smoothness: float = 10.0  
 
 @export_category("Balanced Speed & FOV")
-@export var base_fov: float = 72.0              
+@export var base_fov: float = 90.0      
 @export var max_speed_fov_add: float = 3.0      
 @export var boost_fov_kick: float = 1.0         
 @export var fov_smooth_speed: float = 7.0
-@export var max_expected_speed: float = 110.0   
+@export var max_expected_speed: float = 50.0   
 
 # Internal tracking variables
 var smoothed_look_target: Vector3
