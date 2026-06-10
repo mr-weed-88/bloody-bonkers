@@ -1,7 +1,15 @@
 extends RigidBody3D
 
+# --- NEW: Global speed variables so other scripts can read them ---
+#var current_speed: float = 0.0
+#var current_speed_kmh: float = 0.0
+var current_speed: float = 0.0
+var current_speed_display: float = 0.0
+# ------------------------------------------------------------------
+
 @export_group("Movement Settings")
-@export var max_speed: float = 350.0         
+@export var max_speed: float = 100.0   
+@export var display_top_speed_kmh: float = 200.0    
 @export var acceleration: float = 15.0      
 @export var turn_speed: float = 3.0         
 @export var turn_acceleration: float = 1.0
@@ -18,7 +26,7 @@ var boost_timer: float = 0.0                       # Internal cooldown tracker
 
 @export_group("Car Physics & Grip")
 @export var tire_grip: float = 1.0      
-@export var brake_strength: float = 30.0    
+@export var brake_strength: float = 20.0    
 @export var drift_grip: float = 0.1        # UPDATED: Lowered from 1.0 so the car actually slides
 
 @export_group("Heavy Vehicle Physics")
@@ -96,8 +104,8 @@ func _physics_process(delta: float) -> void:
 	# 2. ARCADE INPUT FILTER
 	var left = Input.is_action_pressed("move_left")
 	var right = Input.is_action_pressed("move_right")
-	var forward = Input.is_action_pressed("move_forward") if is_touching_ground else false
-	var backward = Input.is_action_pressed("move_backward") if is_touching_ground else false
+	var forward = Input.is_action_pressed("move_forward")
+	var backward = Input.is_action_pressed("move_backward")
 	var boost = Input.is_action_pressed("boost_speed") if is_touching_ground else false
 	var is_braking = Input.is_action_pressed("ui_accept") if is_touching_ground else false
 
@@ -105,6 +113,19 @@ func _physics_process(delta: float) -> void:
 	var forward_vec = -global_transform.basis.z
 	var right_vec = global_transform.basis.x
 	var forward_speed = linear_velocity.dot(forward_vec)
+	
+	# --- NEW: Store the calculated speed so UI/Cameras can access it ---
+	current_speed = forward_speed
+
+	var speed_ratio_display = clamp(
+		abs(forward_speed) / max_speed,
+		0.0,
+		1.0
+	)
+
+	current_speed_display = speed_ratio_display * display_top_speed_kmh
+	# -------------------------------------------------------------------
+	
 	var speed_ratio = clamp(abs(forward_speed) / max_speed, 0.0, 1.0) 
 	var steer_input = (1.0 if left else 0.0) - (1.0 if right else 0.0)
 
@@ -147,7 +168,12 @@ func _physics_process(delta: float) -> void:
 				next_forward_speed = move_toward(forward_speed, 0.0, hill_hold_force * delta)
 			else:
 				next_forward_speed = move_toward(forward_speed, target_forward_speed, current_acceleration * delta)
-
+		
+		# --- THE HARD CAP ---
+		# This forcibly clamps the velocity so it cannot physically exceed your top limits
+		next_forward_speed = clamp(next_forward_speed, -current_max_speed, current_max_speed)
+		# --------------------
+		
 		# FIXED: Replaced loose lerp() loop with linear move_toward to completely kill lateral sliding on hills
 		var target_grip = drift_grip if is_drifting else tire_grip
 		var lateral_friction_limit = 55.0 * target_grip
