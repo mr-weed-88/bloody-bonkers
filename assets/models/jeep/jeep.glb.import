@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://40wu3k0tnj7f"
-path="res://.godot/imported/jeep.glb-93ad8075e1ea501d62d502fb202b19d4.scn"
+path="res://.godot/imported/jeep.glb-4ccaf264b3c135cc56efb61feb03fd37.scn"
 
 [deps]
 
-source_file="res://assets/jeep.glb"
-dest_files=["res://.godot/imported/jeep.glb-93ad8075e1ea501d62d502fb202b19d4.scn"]
+source_file="res://assets/models/jeep/jeep.glb"
+dest_files=["res://.godot/imported/jeep.glb-4ccaf264b3c135cc56efb61feb03fd37.scn"]
 
 [params]
 
