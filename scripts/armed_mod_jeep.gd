@@ -1,8 +1,6 @@
 extends RigidBody3D
 
 # --- NEW: Global speed variables so other scripts can read them ---
-#var current_speed: float = 0.0
-#var current_speed_kmh: float = 0.0
 var current_speed: float = 0.0
 var current_speed_display: float = 0.0
 # ------------------------------------------------------------------
