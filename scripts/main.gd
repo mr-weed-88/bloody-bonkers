@@ -5,7 +5,7 @@ extends Node
 @onready var label: Label = $CanvasLayer/Label
 
 # --- NEW: Add this export variable so you can reference the car ---
-@onready var car: RigidBody3D = $Mod_Jeep
+@onready var car: RigidBody3D = $armed_mod_jeep
 # ------------------------------------------------------------------
 
 @export var display_text: String = "Hello 3D World!" 

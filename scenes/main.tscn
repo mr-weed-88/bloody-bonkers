@@ -1,26 +1,26 @@
 [gd_scene format=3 uid="uid://c6cejmxcq88ai"]
 
 [ext_resource type="Script" uid="uid://b46xdcb5ongou" path="res://scripts/main.gd" id="1_sugp2"]
-[ext_resource type="Texture2D" uid="uid://b52483bmqmnx3" path="res://assets/uvs/ground/diff.jpg" id="2_tefeu"]
-[ext_resource type="Texture2D" uid="uid://r70kexcisgt8" path="res://assets/uvs/ground/normal.jpg" id="3_o6xl0"]
-[ext_resource type="Texture2D" uid="uid://bk5bcqfm6efgp" path="res://assets/uvs/ground/arm.jpg" id="4_tipki"]
+[ext_resource type="Texture2D" uid="uid://b52483bmqmnx3" path="res://assets/uvs/ground/diff.jpg" id="2_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://r70kexcisgt8" path="res://assets/uvs/ground/normal.jpg" id="3_tipki"]
+[ext_resource type="Texture2D" uid="uid://cedlj1pbxn78n" path="res://assets/uvs/ground/roughness.jpg" id="4_85g3d"]
+[ext_resource type="PackedScene" uid="uid://csbxccoi3qm2d" path="res://scenes/armed_mod_jeep.tscn" id="4_tbgi4"]
 [ext_resource type="Script" uid="uid://6x5lp055u7xs" path="res://scripts/camera/chase_camera.gd" id="6_o6xl0"]
 [ext_resource type="Script" uid="uid://bhgnkcsfwvwg6" path="res://scripts/camera/tpp_camera.gd" id="7_tipki"]
-[ext_resource type="PackedScene" uid="uid://drmh06gp26bs8" path="res://scenes/mod_jeep.tscn" id="8_tipki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ylpw"]
-size = Vector3(2000, 0.5, 2000)
-
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_85g3d"]
-albedo_texture = ExtResource("2_tefeu")
-orm_texture = ExtResource("4_tipki")
-normal_enabled = true
-normal_texture = ExtResource("3_o6xl0")
-uv1_triplanar = true
-uv1_triplanar_sharpness = 0.00014022038
+size = Vector3(20000, 0.5, 20000)
 
 [sub_resource type="BoxMesh" id="BoxMesh_pybca"]
-size = Vector3(2000, 0.5, 2000)
+size = Vector3(20000, 0.5, 20000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_choun"]
+albedo_texture = ExtResource("2_o6xl0")
+roughness_texture = ExtResource("4_85g3d")
+normal_enabled = true
+normal_texture = ExtResource("3_tipki")
+uv1_scale = Vector3(-0.05, -0.05, -0.05)
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_sugp2"]
 size = Vector3(5, 1, 20)
@@ -38,8 +38,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 shape = SubResource("BoxShape3D_7ylpw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1733497317]
-material_override = SubResource("ORMMaterial3D_85g3d")
 mesh = SubResource("BoxMesh_pybca")
+surface_material_override/0 = SubResource("StandardMaterial3D_choun")
 
 [node name="Elevated_Terrian" type="StaticBody3D" parent="." unique_id=1884955001]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -39.608597)
@@ -3278,7 +3278,19 @@ script = ExtResource("7_tipki")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=623489221]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 250, 250, -250)
-shadow_enabled = true
+light_color = Color(0.9604092, 0.85966134, 0.7342415, 1)
+light_energy = 0.5
+shadow_bias = 10.0
+shadow_normal_bias = 10.0
 
-[node name="Mod_Jeep" parent="." unique_id=1631238680 instance=ExtResource("8_tipki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.169968, 0)
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1033177093]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=2140298518]
+offset_left = 50.0
+offset_top = 1000.0
+offset_right = 51.0
+offset_bottom = 1088.0
+theme_override_font_sizes/font_size = 32
+
+[node name="armed_mod_jeep" parent="." unique_id=2054461842 instance=ExtResource("4_tbgi4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
