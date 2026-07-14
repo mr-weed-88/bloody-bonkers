@@ -27,9 +27,6 @@ Welcome to **Bloddy Bonkers**, an open-source, high-octane vehicle action game b
 ---
 
 ## 📸 Screenshots & Gameplay
-
-*(Showcase your game here! Good visuals are the best way to get people interested in your repository. Replace the placeholders with your actual screenshots or GIFs).*
-
 <p align="center">
   <img src="assets/public//bloody-bonker.png" />
 </p>
@@ -38,7 +35,4 @@ Welcome to **Bloddy Bonkers**, an open-source, high-octane vehicle action game b
 
 ## 🛠️ Getting Started
 
-To play the game or explore the source code yourself, follow these steps:
-
-### Prerequisites
-*   [Godot Engine](https://godotengine.org/download/) (Version 4.x recommended)
+To play the game or explore the source code yourself, just install [Godot Engine](https://godotengine.org/download/)
