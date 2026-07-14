@@ -42,8 +42,3 @@ To play the game or explore the source code yourself, follow these steps:
 
 ### Prerequisites
 *   [Godot Engine](https://godotengine.org/download/) (Version 4.x recommended)
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/yourusername/your-repo-name.git](https://github.com/yourusername/your-repo-name.git)
