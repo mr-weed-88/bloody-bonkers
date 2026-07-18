@@ -1,11 +1,11 @@
 extends Camera3D
 
 @export_category("Target & Setup")
-@onready var target_vehicle: RigidBody3D = $"../../Mod_Jeep"
+@onready var target_vehicle: RigidBody3D = $"../../armed_mod_jeep"
 
 @export_category("Camera Positioning")
 @export var base_follow_distance: float = 3.5   # LOWERED: Very close to the car at idle/low speeds
-@export var max_speed_distance_add: float = 0.8 # LOWERED: Barely pulls back, even at absolute max speed
+@export var max_speed_distance_add: float = 0.1 # LOWERED: Barely pulls back, even at absolute max speed
 @export var follow_height: float = 0.1          # BALANCED: Adjusted down slightly to maintain the angle at closer range
 @export var position_smoothness: float = 8.0    # INCREASED: Snappier tracking to match the tight distance
 
